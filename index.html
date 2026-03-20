@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TTS-Tool</title>
+
+  <style>
+    :root {
+      --bg: #f4f4f5;
+      --bg2: #e9e9ee;
+      --glass: rgba(255, 255, 255, 0.45);
+      --text: #111111;
+      --subtle: #6b7280;
+      --border: rgba(0, 0, 0, 0.08);
+      --focus: #111111;
+    }
+
+    body.dark {
+      --bg: #0b0b0d;
+      --glass: rgba(22, 22, 24, 0.55);
+      --text: #f5f5f5;
+      --subtle: #9ca3af;
+      --border: rgba(255, 255, 255, 0.08);
+      --focus: #ffffff;
+      background: radial-gradient(circle at top, #121214 0%, #0b0b0d 60%, #070709 100%);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--text);
+      background: radial-gradient(circle at 20% 0%, #ffffff 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, #f3f4f6 0%, transparent 55%),
+        radial-gradient(circle at top, #ffffff, var(--bg) 40%, var(--bg2));
+      transition: 0.3s ease;
+    }
+
+    /* GLASS CONTAINER */
+    .container {
+      max-width: 680px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+
+    /* HEADER */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    /* GLASS CARD */
+    .card {
+      background: var(--glass);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px;
+      margin-bottom: 14px;
+      transition: 0.25s ease;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+    }
+
+    .card,
+    .tire-box {
+      background: var(--glass);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--border);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+    }
+
+    /* FLOATING INPUT */
+    .field {
+      position: relative;
+      margin-bottom: 30px;
+      margin-top: 10px;
+    }
+
+    .field input {
+      width: 100%;
+      padding: 16px 12px 12px;
+      font-size: 14px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.25);
+      color: var(--text);
+      outline: none;
+      transition: 0.2s ease;
+    }
+
+    body.dark .field input {
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .field input:focus {
+      border-color: var(--focus);
+      box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.08);
+    }
+
+    .field label {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 13px;
+      color: var(--subtle);
+      pointer-events: none;
+      background: transparent;
+      padding: 0 6px;
+      transition: 0.2s ease;
+    }
+
+    .field input:focus + label,
+    .field input:not(:placeholder-shown) + label {
+      top: -8px;
+      font-size: 11px;
+      color: var(--text);
+      background: var(--glass);
+      backdrop-filter: blur(10px);
+      border-radius: 6px;
+    }
+
+    /* TIRES GRID */
+    .tire-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .tire-box {
+      background: var(--glass);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px;
+      transition: 0.2s ease;
+    }
+
+    .tire-box:hover {
+      transform: translateY(-2px);
+    }
+
+    .tire-title {
+      font-size: 12px;
+      color: var(--subtle);
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    /* MINI INPUTS */
+    .tire-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .mini-field {
+      position: relative;
+      flex: 1;
+      margin-bottom: 10px;
+    }
+
+    .mini-field input {
+      width: 100%;
+      padding: 14px 10px 10px;
+      font-size: 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.2);
+      color: var(--text);
+      outline: none;
+    }
+
+    body.dark .mini-field input {
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .mini-field input:focus {
+      border-color: var(--focus);
+      box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.08);
+    }
+
+    .mini-field label {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 11px;
+      color: var(--subtle);
+      transition: 0.2s ease;
+      pointer-events: none;
+    }
+
+    .mini-field input:focus + label,
+    .mini-field input:not(:placeholder-shown) + label {
+      top: -7px;
+      font-size: 10px;
+      color: var(--text);
+      background: var(--glass);
+      padding: 0 4px;
+      border-radius: 6px;
+    }
+
+    /* BUTTONS */
+    .buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    button {
+      padding: 8px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--glass);
+      color: var(--text);
+      cursor: pointer;
+      font-size: 12px;
+      transition: 0.2s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+    }
+
+    button.primary {
+      background: var(--text);
+      color: var(--bg);
+      border: none;
+    }
+
+    /* OUTPUT */
+    textarea {
+      width: 100%;
+      height: 110px;
+      margin-top: 14px;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--glass);
+      backdrop-filter: blur(14px);
+      color: var(--text);
+      font-size: 13px;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* NEUTRAL ATTENTION STATE (non-ok fields) */
+    .attention {
+      border-color: rgba(120, 120, 120, 0.35) !important;
+      border-radius: 10px;
+      transition: 0.2s ease;
+    }
+
+    /* LIGHT MODE */
+    body:not(.dark) .attention {
+      background: rgba(120, 120, 120, 0.10) !important;
+      box-shadow: 0 0 0 3px rgba(120, 120, 120, 0.12) !important;
+    }
+
+    /* DARK MODE (IMPORTANT FIX) */
+    body.dark .attention {
+      background: rgba(99, 102, 241, 0.1) !important;
+      /* subtle indigo tint */
+      border-color: rgba(99, 102, 241, 0.35) !important;
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12) !important;
+    }
+
+    .attention {
+      animation: attentionFade 0.35s ease;
+    }
+
+    @keyframes attentionFade {
+      from {
+        transform: scale(1.01);
+        background: rgba(120, 120, 120, 0.0);
+      }
+      to {
+        transform: scale(1);
+        background: rgba(120, 120, 120, 0.10);
+      }
+    }
+
+    /* CUSTOM ALERT MODAL */
+    .custom-alert {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      backdrop-filter: blur(2px);
+    }
+
+    body.dark .custom-alert {
+      background: rgba(0, 0, 0, 0.35);
+    }
+
+    .custom-alert.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .custom-alert-content {
+      background: var(--glass);
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      animation: alertSlideUp 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      backdrop-filter: blur(14px);
+    }
+
+    @keyframes alertSlideUp {
+      from {
+        transform: scale(0.8) translateY(40px);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .custom-alert-icon {
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .custom-alert-icon svg {
+      width: 56px;
+      height: 56px;
+      stroke: currentColor;
+      stroke-width: 2.5;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 50;
+      stroke-dashoffset: 50;
+      animation: swooshCheck 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    @keyframes swooshCheck {
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    .custom-alert-text {
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--text);
+      text-align: center;
+      letter-spacing: 0.3px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <div class="header">
+      <h1>TTS-Tool for my Baby</h1>
+      <button id="theme">Dark Mode</button>
+    </div>
+
+    <div class="card">
+      <div style="font-size:13px;color:var(--subtle);margin-bottom:10px;">
+        Comments Library (editable)
+      </div>
+
+      <textarea id="commentsBox" style="
+    width:100%;
+    height:180px;
+    padding:10px;
+    border-radius:10px;
+    border:1px solid var(--border);
+    background:var(--glass);
+    color:var(--text);
+    font-size:12px;
+    resize: vertical;
+    outline:none;
+    backdrop-filter: blur(14px);
+  "></textarea>
+
+      <div class="buttons">
+        <button id="saveComments">Save Comments</button>
+        <button id="resetComments">Clear</button>
+      </div>
+    </div>
+
+    <div class="card" id="form"></div>
+
+    <div class="card">
+      <div style="font-size:13px;color:var(--subtle);margin-bottom:10px;">
+        Tires & Brakes Layout
+      </div>
+
+      <div class="tire-grid">
+
+        <div class="tire-box">
+          <div class="tire-title">Driver Front</div>
+          <div class="tire-row">
+            <div class="mini-field"><input placeholder=""><label>Tires</label></div>
+            <div class="mini-field"><input placeholder=""><label>Brakes</label></div>
+          </div>
+        </div>
+
+        <div class="tire-box">
+          <div class="tire-title">Passenger Front</div>
+          <div class="tire-row">
+            <div class="mini-field"><input placeholder=""><label>Tires</label></div>
+            <div class="mini-field"><input placeholder=""><label>Brakes</label></div>
+          </div>
+        </div>
+
+        <div class="tire-box">
+          <div class="tire-title">Driver Rear</div>
+          <div class="tire-row">
+            <div class="mini-field"><input placeholder=""><label>Tires</label></div>
+            <div class="mini-field"><input placeholder=""><label>Brakes</label></div>
+          </div>
+        </div>
+
+        <div class="tire-box">
+          <div class="tire-title">Passenger Rear</div>
+          <div class="tire-row">
+            <div class="mini-field"><input placeholder=""><label>Tires</label></div>
+            <div class="mini-field"><input placeholder=""><label>Brakes</label></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="buttons">
+      <button class="primary" id="generate">Done</button>
+      <button id="clear">Clear</button>
+    </div>
+
+    <textarea id="output"></textarea>
+
+  </div>
+
+  <!-- CUSTOM ALERT MODAL -->
+  <div id="customAlert" class="custom-alert">
+    <div class="custom-alert-content">
+      <div class="custom-alert-icon">
+        <svg viewBox="0 0 24 24">
+          <path d="M5 13l4 4L19 7" />
+        </svg>
+      </div>
+      <div class="custom-alert-text">Comments saved!</div>
+    </div>
+  </div>
+
+  <script>
+    const fields = [
+      "Intro", "MPI Route", "Inspection", "Digital Tire Gauge",
+      "Brake Gauge", "Gloves & Pointer", "Explain", "MPI Words",
+      "Outro", "Clarity"
+    ];
+
+    const form = document.getElementById("form");
+    const inputs = [];
+    const tireInputs = document.querySelectorAll(".mini-field input");
+
+    window.addEventListener("load", () => {
+      const saved = JSON.parse(localStorage.getItem("qa-data") || "{}");
+
+      inputs.forEach((i, idx) => {
+        if (saved.main?.[idx]) i.value = saved.main[idx];
+      });
+
+      tireInputs.forEach((i, idx) => {
+        if (saved.tires?.[idx]) i.value = saved.tires[idx];
+      });
+
+      inputs[0]?.focus();
+    });
+
+    fields.forEach((field, index) => {
+      const wrapper = document.createElement("div");
+      wrapper.className = "field";
+
+      const input = document.createElement("input");
+      input.placeholder = " ";
+
+      const label = document.createElement("label");
+      label.textContent = field;
+
+      input.addEventListener("input", saveData);
+
+      input.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          inputs[index + 1]?.focus();
+        }
+      });
+      input.addEventListener("focus", () => {
+        setTimeout(() => {
+          input.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+          });
+        }, 80);
+      });
+
+      inputs.push(input);
+      wrapper.appendChild(input);
+      wrapper.appendChild(label);
+      form.appendChild(wrapper);
+    });
+
+    tireInputs.forEach(i => {
+      i.addEventListener("focus", () => {
+        setTimeout(() => {
+          i.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+          });
+        }, 80);
+      });
+    });
+
+    function saveData() {
+      const data = {
+        main: inputs.map(i => i.value),
+        tires: [...tireInputs].map(i => i.value)
+      };
+      localStorage.setItem("qa-data", JSON.stringify(data));
+    }
+
+    tireInputs.forEach(i => i.addEventListener("input", saveData));
+
+    function generate() {
+      let result = "";
+
+      inputs.forEach((input, i) => {
+        const value = input.value.trim();
+
+        // clear previous highlights first
+        input.classList.remove("attention");
+
+        if (value && value.toLowerCase() !== "ok") {
+          result += `${fields[i]}: ${value}\n`;
+
+          // highlight non-ok fields
+          input.classList.add("attention");
+        }
+      });
+
+      document.getElementById("output").value = result;
+    }
+
+    function clearFields() {
+      inputs.forEach(i => i.classList.remove("attention"));
+      inputs.forEach(i => i.value = "");
+      tireInputs.forEach(i => i.value = "");
+      localStorage.removeItem("qa-data");
+      document.getElementById("output").value = "";
+
+      inputs[0].focus();
+
+      // ✅ scroll to top after reset
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    }
+
+
+    document.getElementById("theme").onclick = () => {
+      document.body.classList.toggle("dark");
+      document.getElementById("theme").textContent =
+        document.body.classList.contains("dark") ? "Light Mode" : "Dark Mode";
+    };
+
+    document.getElementById("generate").onclick = generate;
+    document.getElementById("clear").onclick = clearFields;
+
+
+
+    const commentsBox = document.getElementById("commentsBox");
+
+    // LOAD
+    window.addEventListener("load", () => {
+      const saved = localStorage.getItem("comments-data");
+      commentsBox.value = saved || "";
+    });
+
+    // SAVE
+    document.getElementById("saveComments").onclick = () => {
+      localStorage.setItem("comments-data", commentsBox.value);
+      showCustomAlert("Comments saved!");
+    };
+
+    // RESET
+    document.getElementById("resetComments").onclick = () => {
+      commentsBox.value = "";
+      localStorage.removeItem("comments-data");
+    };
+
+    // Custom Alert Function
+    function showCustomAlert(message) {
+      const alertEl = document.getElementById("customAlert");
+      const textEl = alertEl.querySelector(".custom-alert-text");
+      textEl.textContent = message;
+
+      alertEl.classList.add("show");
+
+      setTimeout(() => {
+        alertEl.classList.remove("show");
+      }, 2000);
+    }
+  </script>
+
+</body>
+</html>
