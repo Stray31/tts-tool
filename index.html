@@ -213,6 +213,73 @@
       background: rgba(255, 255, 255, 0.2);
     }
 
+    /* MARK ITEMS STYLING */
+    .mark-item {
+      padding: 8px 10px;
+      margin-bottom: 6px;
+      border-radius: 6px;
+      font-size: 12px;
+      border-left: 3px solid;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .mark-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .mark-green {
+      background: rgba(34, 197, 94, 0.1);
+      border-left-color: #22c55e;
+      color: var(--text);
+    }
+
+    body.dark .mark-green {
+      background: rgba(34, 197, 94, 0.15);
+    }
+
+    .mark-red {
+      background: rgba(239, 68, 68, 0.1);
+      border-left-color: #ef4444;
+      color: var(--text);
+    }
+
+    body.dark .mark-red {
+      background: rgba(239, 68, 68, 0.15);
+    }
+
+    .marks-container {
+      width: 100%;
+      margin-top: 8px;
+      padding: 16px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--glass);
+      backdrop-filter: blur(14px);
+      min-height: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .marks-container::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .marks-container::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .marks-container::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 3px;
+    }
+
+    body.dark .marks-container::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
     html {
       scroll-behavior: smooth;
     }
@@ -783,25 +850,27 @@
       </div>
     </div>
 
-    <div style="font-size:13px;color:var(--subtle);margin-bottom:8px;margin-top:14px;">
-      Marked as Green
-    </div>
-
-    <textarea id="okFields" readonly></textarea>
-
-    <div class="results-header" style="margin-top: 14px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 14px; margin-bottom: 8px;">
       <div style="font-size:13px;color:var(--subtle);">
-        Marked as Red
+        Marks
       </div>
       <div class="results-counter">
-        <div style="display: flex; align-items: center; gap: 6px;">
-          <span style="color: #ef4444;">●</span>
-          <span>Red: <strong id="notOkCount">0</strong></span>
-        </div>
         <div style="display: flex; align-items: center; gap: 6px;">
           <span style="color: #22c55e;">●</span>
           <span>Green: <strong id="okCount">0</strong></span>
         </div>
+        <div style="display: flex; align-items: center; gap: 6px;">
+          <span style="color: #ef4444;">●</span>
+          <span>Red: <strong id="notOkCount">0</strong></span>
+        </div>
+      </div>
+    </div>
+
+    <div id="okFields" class="marks-container"></div>
+
+    <div class="results-header" style="margin-top: 14px;">
+      <div style="font-size:13px;color:var(--subtle);">
+        Marked as Red
       </div>
     </div>
 
@@ -980,10 +1049,10 @@
     }
 
     function generate() {
-      let result = "";
-      let okList = "";
-      let notOkCount = 0;
-      let okCount = 0;
+      let marksList = "";
+      let redList = "";
+      let greenCount = 0;
+      let redCount = 0;
 
       inputs.forEach((input, i) => {
         const value = input.value.trim();
@@ -991,21 +1060,28 @@
         // clear previous highlights first
         input.classList.remove("attention");
 
-        if (value && value.toLowerCase() !== "ok") {
-          result += `${fields[i]}: ${value}\n`;
-          // highlight non-ok fields
+        // Check if value is "ok" or "OK"
+        const isOk = value.toLowerCase() === "ok";
+
+        if (isOk) {
+          marksList += `<div class="mark-item mark-green">${fields[i]}: <strong>Green</strong></div>`;
+          greenCount++;
+        } else if (value) {
+          marksList += `<div class="mark-item mark-red">${fields[i]}: <strong>Red</strong></div>`;
+          redList += `${fields[i]}: ${value}\n`;
           input.classList.add("attention");
-          notOkCount++;
-        } else if (value.toLowerCase() === "ok") {
-          okList += `${fields[i]}\n`;
-          okCount++;
+          redCount++;
+        } else {
+          // Empty field counts as Red
+          marksList += `<div class="mark-item mark-red">${fields[i]}: <strong>Red</strong></div>`;
+          redCount++;
         }
       });
 
-      document.getElementById("output").value = result;
-      document.getElementById("okFields").value = okList;
-      document.getElementById("notOkCount").textContent = notOkCount;
-      document.getElementById("okCount").textContent = okCount;
+      document.getElementById("okFields").innerHTML = marksList;
+      document.getElementById("output").value = redList;
+      document.getElementById("notOkCount").textContent = redCount;
+      document.getElementById("okCount").textContent = greenCount;
     }
 
     function clearFields() {
@@ -1013,7 +1089,7 @@
       inputs.forEach(i => i.value = "");
       localStorage.removeItem("qa-data");
       document.getElementById("output").value = "";
-      document.getElementById("okFields").value = "";
+      document.getElementById("okFields").innerHTML = "";
       document.getElementById("notOkCount").textContent = "0";
       document.getElementById("okCount").textContent = "0";
       document.getElementById("quickNotes").value = "";
