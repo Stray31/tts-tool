@@ -779,9 +779,15 @@
       <div style="display: flex; gap: 10px;">
         <button class="primary" id="generate">Done</button>
         <button id="clear">Clear</button>
+        <button id="copy">Copy</button>
       </div>
-      <button id="copy">Copy</button>
     </div>
+
+    <div style="font-size:13px;color:var(--subtle);margin-bottom:8px;margin-top:14px;">
+      Marked as Green
+    </div>
+
+    <textarea id="okFields" readonly></textarea>
 
     <div class="results-header" style="margin-top: 14px;">
       <div style="font-size:13px;color:var(--subtle);">
@@ -800,12 +806,6 @@
     </div>
 
     <textarea id="output"></textarea>
-
-    <div style="font-size:13px;color:var(--subtle);margin-bottom:8px;margin-top:14px;">
-      Marked as Green
-    </div>
-
-    <textarea id="okFields" readonly></textarea>
 
   </div>
 
