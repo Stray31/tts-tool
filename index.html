@@ -842,39 +842,39 @@
 
     <div class="card" id="form"></div>
 
-    <div class="buttons" style="display: flex; justify-content: space-between; align-items: center;">
-      <div style="display: flex; gap: 10px;">
-        <button class="primary" id="generate">Done</button>
-        <button id="copy">Copy</button>
+    <div style="margin-top: 14px; margin-bottom: 12px;">
+      <div style="margin-bottom: 8px;">
+        <button id="generate">Done</button>
       </div>
-      <button id="clear">Clear</button>
-    </div>
-
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 14px; margin-bottom: 8px;">
-      <div style="font-size:13px;color:var(--subtle);">
-        Marks
-      </div>
-      <div class="results-counter">
-        <div style="display: flex; align-items: center; gap: 6px;">
-          <span style="color: #22c55e;">●</span>
-          <span>Green: <strong id="okCount">0</strong></span>
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div style="font-size:13px;color:var(--subtle);">
+          Marks
         </div>
-        <div style="display: flex; align-items: center; gap: 6px;">
-          <span style="color: #ef4444;">●</span>
-          <span>Red: <strong id="notOkCount">0</strong></span>
+        <div class="results-counter">
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <span style="color: #22c55e;">●</span>
+            <span>Green: <strong id="okCount">0</strong></span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <span style="color: #ef4444;">●</span>
+            <span>Red: <strong id="notOkCount">0</strong></span>
+          </div>
         </div>
       </div>
     </div>
 
     <div id="okFields" class="marks-container"></div>
 
-    <div class="results-header" style="margin-top: 14px;">
-      <div style="font-size:13px;color:var(--subtle);">
-        Marked as Red
-      </div>
+    <div style="font-size:13px;color:var(--subtle); margin-top: 14px; margin-bottom: 8px;">
+      Marked as Red
     </div>
 
     <textarea id="output"></textarea>
+
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;">
+      <button id="copy">Copy</button>
+      <button id="clear">Clear</button>
+    </div>
 
   </div>
 
