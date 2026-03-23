@@ -1163,6 +1163,19 @@
     }
 
     function generate() {
+      // Validation: Check if any fields are empty
+      const emptyFields = [];
+      inputs.forEach((input, i) => {
+        if (!input.value.trim()) {
+          emptyFields.push(fields[i]);
+        }
+      });
+
+      if (emptyFields.length > 0) {
+        showCustomAlert(`Please fill in: ${emptyFields.join(", ")}`);
+        return;
+      }
+
       let marksList = "";
       let redList = "";
       let greenCount = 0;
