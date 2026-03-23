@@ -43,6 +43,13 @@
     body.dark {
       --bg: #0a0a0c;
       --bg2: #0d0d10;
+      --accent: rgba(255, 255, 255, 0.08);
+      --accent-border: rgba(255, 255, 255, 0.15);
+    }
+
+    :root {
+      --accent: rgba(0, 0, 0, 0.08);
+      --accent-border: rgba(0, 0, 0, 0.12);
     }
 
     /* GLASS CONTAINER */
@@ -52,12 +59,38 @@
       padding: 20px;
     }
 
+    /* NAVBAR */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      background: rgba(255, 255, 255, 0.35);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+      z-index: 9997;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    }
+
+    body.dark .navbar {
+      background: rgba(10, 10, 12, 0.45);
+      border-bottom-color: rgba(255, 255, 255, 0.1);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+    }
+
     /* HEADER */
     .header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 16px;
+      margin-top: 80px;
     }
 
     h1 {
@@ -85,6 +118,13 @@
       border: 1px solid var(--border);
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06),
         inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    }
+
+    body.dark .card {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.12);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
     }
 
     .card:hover {
@@ -118,6 +158,10 @@
     .field input:focus {
       border-color: var(--focus);
       box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.08);
+    }
+
+    body.dark .field input:focus {
+      box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.12);
     }
 
     .field label {
@@ -193,6 +237,7 @@
     }
 
     body.dark textarea {
+      background: rgba(255, 255, 255, 0.06);
       border-color: rgba(255, 255, 255, 0.12);
     }
 
@@ -237,6 +282,7 @@
 
     body.dark .mark-green {
       background: rgba(34, 197, 94, 0.15);
+      border-left-color: #22c55e;
     }
 
     .mark-red {
@@ -247,6 +293,7 @@
 
     body.dark .mark-red {
       background: rgba(239, 68, 68, 0.15);
+      border-left-color: #ef4444;
     }
 
     .marks-container {
@@ -276,6 +323,11 @@
       border-radius: 3px;
     }
 
+    body.dark .marks-container {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.12);
+    }
+
     body.dark .marks-container::-webkit-scrollbar-thumb {
       background: rgba(255, 255, 255, 0.2);
     }
@@ -299,10 +351,10 @@
 
     /* DARK MODE (IMPORTANT FIX) */
     body.dark .attention {
-      background: rgba(99, 102, 241, 0.1) !important;
-      /* subtle indigo tint */
-      border-color: rgba(99, 102, 241, 0.35) !important;
-      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12) !important;
+      background: rgba(255, 255, 255, 0.08) !important;
+      /* subtle neutral tint */
+      border-color: rgba(255, 255, 255, 0.3) !important;
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1) !important;
     }
 
     .attention {
@@ -556,27 +608,30 @@
 
     /* COMMENTS TOGGLE BUTTON */
     .comments-toggle-btn {
-      position: fixed;
-      right: 20px;
-      top: 20px;
-      z-index: 9997;
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      background: var(--text);
-      color: var(--bg);
+      background: none;
       border: none;
+      color: var(--text);
       cursor: pointer;
-      font-size: 18px;
+      font-size: 20px;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: 0.3s ease;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      transition: 0.2s ease;
+      padding: 0;
+      opacity: 0.85;
     }
 
     .comments-toggle-btn:hover {
+      opacity: 1;
       transform: scale(1.1);
+    }
+
+    body.dark .comments-toggle-btn {
+      opacity: 0.8;
+    }
+
+    body.dark .comments-toggle-btn:hover {
+      opacity: 1;
     }
 
     /* STICKY TEXTBOX BELOW COMMENTS */
@@ -589,10 +644,15 @@
       border: 1px solid var(--border);
       border-radius: 12px;
       padding: 12px;
-      z-index: 9996;
+      z-index: 9998;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
       backdrop-filter: blur(14px);
       user-select: none;
+    }
+
+    body.dark .sticky-notes {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.12);
     }
 
     .sticky-notes textarea {
@@ -608,6 +668,11 @@
       resize: vertical;
     }
 
+    body.dark .sticky-notes textarea {
+      background: rgba(255, 255, 255, 0.06) !important;
+      border-color: rgba(255, 255, 255, 0.12) !important;
+    }
+
     .sticky-notes-title {
       font-size: 11px;
       color: var(--subtle);
@@ -617,6 +682,24 @@
       padding: 4px;
       border-radius: 4px;
       transition: 0.2s ease;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .sticky-notes-reset {
+      background: none;
+      border: none;
+      color: var(--text);
+      cursor: pointer;
+      font-size: 12px;
+      padding: 0;
+      opacity: 0.6;
+      transition: 0.2s ease;
+    }
+
+    .sticky-notes-reset:hover {
+      opacity: 1;
     }
 
     .sticky-notes-title:hover {
@@ -789,27 +872,52 @@
 
     /* SETTINGS TOGGLE BUTTON */
     .settings-toggle-btn {
-      position: fixed;
-      left: 20px;
-      top: 20px;
-      z-index: 9997;
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      background: var(--text);
-      color: var(--bg);
+      background: none;
       border: none;
+      color: var(--text);
       cursor: pointer;
       font-size: 20px;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: 0.3s ease;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      transition: 0.2s ease;
+      padding: 0;
+      opacity: 0.85;
     }
 
     .settings-toggle-btn:hover {
+      opacity: 1;
       transform: scale(1.1);
+    }
+
+    body.dark .settings-toggle-btn {
+      opacity: 0.8;
+    }
+
+    body.dark .settings-toggle-btn:hover {
+      opacity: 1;
+    }
+
+    /* THEME TOGGLE BUTTON */
+    #theme {
+      background: none !important;
+      border: none !important;
+      transition: 0.2s ease !important;
+      opacity: 0.85;
+      font-size: 20px;
+    }
+
+    #theme:hover {
+      opacity: 1 !important;
+      transform: scale(1.1);
+    }
+
+    body.dark #theme {
+      opacity: 0.8;
+    }
+
+    body.dark #theme:hover {
+      opacity: 1 !important;
     }
 
     .settings-buttons {
@@ -833,12 +941,19 @@
 
 <body>
 
-  <div class="container">
-
-    <div class="header">
-      <h1>TTS-Tool for my Baby</h1>
-      <button id="theme">Dark Mode</button>
+  <!-- NAVBAR -->
+  <div class="navbar">
+    <button class="settings-toggle-btn" id="settingsToggle" title="Settings">☰</button>
+    <div style="flex: 1;"></div>
+    <h1 style="margin: 0; font-size: 16px;">TTS-Tool for my Baby</h1>
+    <div style="flex: 1;"></div>
+    <div style="display: flex; gap: 12px; align-items: center;">
+        <button id="theme" title="Toggle dark mode" style="background: none; border: none; cursor: pointer; font-size: 20px; display: flex; align-items: center; justify-content: center; padding: 0;">☀️</button>
+      <button class="comments-toggle-btn" id="commentsToggle" title="Comments">💬</button>
     </div>
+  </div>
+
+  <div class="container">
 
     <div class="card" id="form"></div>
 
@@ -890,9 +1005,6 @@
     </div>
   </div>
 
-  <!-- SETTINGS BUTTON -->
-  <button class="settings-toggle-btn" id="settingsToggle">⚙️</button>
-
   <!-- SETTINGS SIDEBAR -->
   <div class="settings-sidebar" id="settingsSidebar">
     <div class="settings-header">
@@ -907,7 +1019,6 @@
   </div>
 
   <!-- COMMENTS SIDEBAR -->
-  <button class="comments-toggle-btn" id="commentsToggle">📝</button>
   <div class="comments-sidebar" id="commentsSidebar">
     <div class="comments-sidebar-header">
       <span>Comments Library</span>
@@ -922,7 +1033,10 @@
 
   <!-- STICKY NOTES -->
   <div class="sticky-notes">
-    <div class="sticky-notes-title">Quick Notes</div>
+    <div class="sticky-notes-title">
+      Quick Notes
+      <button class="sticky-notes-reset" title="Reset position">↺</button>
+    </div>
     <textarea id="quickNotes" placeholder="Temporary notes..."></textarea>
   </div>
 
@@ -1107,8 +1221,19 @@
     document.getElementById("theme").onclick = () => {
       document.body.classList.toggle("dark");
       document.getElementById("theme").textContent =
-        document.body.classList.contains("dark") ? "Light Mode" : "Dark Mode";
+        document.body.classList.contains("dark") ? "🌙" : "☀️";
+      localStorage.setItem("theme-mode", document.body.classList.contains("dark") ? "dark" : "light");
     };
+
+    // Set initial theme icon on page load
+    window.addEventListener("load", () => {
+      const savedTheme = localStorage.getItem("theme-mode");
+      if (savedTheme === "dark") {
+        document.body.classList.add("dark");
+      }
+      document.getElementById("theme").textContent =
+        document.body.classList.contains("dark") ? "🌙" : "☀️";
+    });
 
     document.getElementById("generate").onclick = generate;
     document.getElementById("clear").onclick = clearFields;
@@ -1303,12 +1428,15 @@
     // Draggable Sticky Notes
     const stickyNotes = document.querySelector(".sticky-notes");
     const stickyTitle = document.querySelector(".sticky-notes-title");
+    const stickyResetBtn = document.querySelector(".sticky-notes-reset");
     let isDragging = false;
     let offsetX = 0;
     let offsetY = 0;
 
     if (stickyTitle && stickyNotes) {
       stickyTitle.addEventListener("mousedown", (e) => {
+        // Don't drag if clicking the reset button
+        if (e.target === stickyResetBtn) return;
         isDragging = true;
         const rect = stickyNotes.getBoundingClientRect();
         offsetX = e.clientX - rect.left;
@@ -1327,6 +1455,17 @@
       document.addEventListener("mouseup", () => {
         isDragging = false;
         stickyNotes.style.cursor = "default";
+      });
+    }
+
+    // Reset sticky notes position
+    if (stickyResetBtn) {
+      stickyResetBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        stickyNotes.style.bottom = "20px";
+        stickyNotes.style.left = "20px";
+        stickyNotes.style.top = "auto";
+        stickyNotes.style.right = "auto";
       });
     }
   </script>
