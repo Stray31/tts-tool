@@ -1209,6 +1209,13 @@
       document.getElementById("output").value = redList;
       document.getElementById("notOkCount").textContent = redCount;
       document.getElementById("okCount").textContent = greenCount;
+
+      // auto-copy filtered red text on Done
+      const outputEl = document.getElementById("output");
+      outputEl.select();
+      outputEl.setSelectionRange(0, 99999); // mobile support
+      document.execCommand("copy");
+      showCustomAlert("Results copied to clipboard!");
     }
 
     function clearFields() {
@@ -1459,8 +1466,19 @@
 
       document.addEventListener("mousemove", (e) => {
         if (isDragging) {
-          stickyNotes.style.left = (e.clientX - offsetX) + "px";
-          stickyNotes.style.top = (e.clientY - offsetY) + "px";
+          const navHeight = document.querySelector('.navbar')?.offsetHeight || 0;
+          const minTop = navHeight + 8;
+          const maxLeft = window.innerWidth - stickyNotes.offsetWidth - 8;
+          const maxTop = window.innerHeight - stickyNotes.offsetHeight - 8;
+
+          let newLeft = e.clientX - offsetX;
+          let newTop = e.clientY - offsetY;
+
+          newLeft = Math.min(Math.max(8, newLeft), maxLeft);
+          newTop = Math.min(Math.max(minTop, newTop), maxTop);
+
+          stickyNotes.style.left = newLeft + "px";
+          stickyNotes.style.top = newTop + "px";
           stickyNotes.style.bottom = "auto";
         }
       });
