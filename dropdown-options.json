@@ -1,0 +1,12 @@
+{
+  "0": ["tech name", "store name", "location", "car model/concern", "not mentioned"],
+  "1": ["car was not lifted", "did not inspect undercarriage", "did not inspect all tires"],
+  "2": ["not mentioned"],
+  "3": ["did not use digital tire gauge", "only measured 1 front and 1 rear tire", "analogue tire gauge was used", "not used"],
+  "4": ["not used", "poorly used brake gauge (measuring brakes should be captured or point brake gauge with clear view of rotors/caliper.)"],
+  "5": ["gloves and gauges were not used", "gauges were not used", "no brake gauge used", "no tire gauge used"],
+  "6": ["recommended", "could've explained benefits/consequences", "did not explain", "condition"],
+  "7": ["no mpi words used for", "poor mpi words used for"],
+  "8": ["tech should inform that service advisor will reach out for updates"],
+  "9": ["tech was not talking", "video orientation should be landscape"]
+}
